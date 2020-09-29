@@ -13,7 +13,7 @@
 
 --------
 
-**Editor.md** 是一个Web插件，无需基于任组件方便快捷的使用开发Ws应用，完美兼容Swoft、EasySwoole等后端框架。
+**EasySocket.js** 是一个Web插件，无需基于任组件方便快捷的使用开发Ws应用，完美兼容Swoft、EasySwoole等后端框架。
 
 
 #### Download & install
@@ -97,7 +97,8 @@
 ```
 
 ##### 使用Ajax
-使用ajax功能后端需要返回上传的sessId参数和数据，这样前端才能绑定到会话中。
+ajax是对json数据传输的封装，解决过多事件注册的不便。
+使用ajax功能，在后端需要返回上传的sessId参数和数据，这样前端才能绑定到会话中。
 
 ```javascript
 ...
@@ -119,8 +120,18 @@
 ...
 ```
 
-#### License
+#### 更新记录
+---
+ `v0.0.1` 20-08-14
+ - 初代版本
 
+ `v0.0.1` 20-08-14
+ - 增加模拟ajax功能
+ - 修复数据获取闭包回调不刷新数据的错误
+ - 增加debug配置项，并将控制台log信息改为英文
+
+#### License
+---
 The Apache License.
 
 Copyright (c) 2020 Kyour.cn

@@ -1,8 +1,9 @@
 "use strict";
 /**
- * Ws模块封装 EasySocket.js v0.1
- * 该模块仅支持单列模式，不能同时启用多个连接
+ * Ws模块封装 EasySocket.js v0.0.2
+ * 该模块目前仅支持单列模式，不能同时启用多个连接
  * @authar kyour@vip.qq.com
+ * @site blog.kyour.cn
  */
 (function(w){
 
@@ -17,9 +18,9 @@
             this.conf[k] = conf[k];
         }
         if ("WebSocket" in w){
-            console.log('您的浏览器支持WebSocket!');
+            console.log('Your browser support WebSocket!');
         }else{
-            console.log('您的浏览器不支持WebSocket!');
+            console.log('Your browser doesn\'t support WebSocket!');
         }
         EasySocketConn = this;
 
@@ -27,12 +28,9 @@
         return this;
     };
 
-    /**
-     * 对象参数及方法注册
-     */
     sw.prototype = {
         //版本
-        version: '0.1',
+        version: '0.0.2',
         //默认配置
         conf: {
             url:'', //ws链接
@@ -61,7 +59,7 @@
 
             this.event.open = openFunc;
 
-            console.log('正在连接 '+this.conf.url);
+            console.log('Websocket Connecting: '+this.conf.url);
             var ws = new WebSocket(this.conf.url);
             this.socket = ws;
             //ws事件注册
@@ -141,9 +139,16 @@
             if(conn.socket !== null){
                 //执行闭包函数
                 if(typeof conn.conf.heart.data == 'function'){
-                    conn.conf.heart.data = conn.conf.heart.data();
+
+                    var d = {};
+                    for(var i in conn.conf.heart){
+                        d[i] = conn.conf.heart[i];
+                    }
+                    d.data = conn.conf.heart.data()
+                    conn.send(d);
+                }else{
+                    conn.send(conn.conf.heart);
                 }
-                conn.send(conn.conf.heart);
             }
         },
 
@@ -152,6 +157,8 @@
          */
         onOpen: function() {
             var conn = EasySocketConn;
+
+            console.log('Websocket Connected.');
 
             //重连发送数据
             for(var k in conn.reConnData){
@@ -172,7 +179,7 @@
             var data = conn.deJson(evt.data);
             if(data === false){
                 if(conn.conf.debug)
-                    console.log("未解析的数据："+evt.data);
+                    console.log("Websocket Raw Data："+evt.data);
                 return;
             }
 
@@ -205,7 +212,7 @@
             if(conn.conf.reconn){
                 //自动重连
                 if(conn.conf.debug)
-                    console.log("连接断开，正在重连...");
+                    console.log("Websocket Disconnected, reconnecting...");
                 setTimeout(conn.init(), 1000);
             }
         },
