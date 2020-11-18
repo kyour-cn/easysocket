@@ -47,6 +47,9 @@
         //     alert('dad')
         // }
 
+        //连接成功 - 手动发送一次心跳
+        es.sendHeart();
+
         //注册消息事件
         es.addListener('user.login',function(ret) {
 
@@ -73,9 +76,9 @@
             }
         },function(ret,err){
             if(ret){
-                alert(ret.cmd);
+                alert(ret.message);
             }else{
-                alert(err.msg);
+                alert(err.message);
             }
         });
 
